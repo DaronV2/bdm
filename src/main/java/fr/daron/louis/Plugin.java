@@ -18,6 +18,7 @@ import org.mvplugins.multiverse.core.world.options.CreateWorldOptions;
 
 import fr.daron.louis.EventHandler.ConnectionHandle;
 import fr.daron.louis.commands.SetHost;
+import fr.daron.louis.configGame.configItem.ConfigItemHandle;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,6 +38,7 @@ public class Plugin extends JavaPlugin {
     this.players = new ArrayList<CustomPlayer>();
     this.lobbyName = "LobbyBDM14";
     getServer().getPluginManager().registerEvents(new ConnectionHandle(this), this);
+    getServer().getPluginManager().registerEvents(new ConfigItemHandle());
     getCommand("sethost").setExecutor(new SetHost(this));
     Lobby lobby = new Lobby(getLobbyName(), this);
     Boolean generated = lobby.generate();
