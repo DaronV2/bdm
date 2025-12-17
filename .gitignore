@@ -1,0 +1,87 @@
+# ======================
+# Java / Maven
+# ======================
+
+# Maven
+target/
+dependency-reduced-pom.xml
+
+# Compiled class files
+*.class
+
+# Logs
+*.log
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# ======================
+# IDE
+# ======================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+# NetBeans
+nbproject/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ======================
+# OS
+# ======================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# ======================
+# Minecraft / Spigot
+# ======================
+
+# Server files
+logs/
+world/
+world_nether/
+world_the_end/
+cache/
+usercache.json
+banned-players.json
+banned-ips.json
+ops.json
+whitelist.json
+
+# Plugins folder (si présent)
+plugins/
+
+# ======================
+# Secrets / Config
+# ======================
+
+# Env
+.env
+
+# Local configs
+*.local.yml
+*.local.properties
