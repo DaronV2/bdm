@@ -1,0 +1,10 @@
+name: bdm
+main: fr.daron.louis.Plugin
+version: 1
+api-version: 1.15
+
+commands:
+  sethost:
+    description: Défini l'host de la partie
+    usage: /sethost
+    aliases: [sth]

@@ -1,0 +1,8 @@
+fr\daron\louis\commands\SetHost.class
+fr\daron\louis\Plugin.class
+fr\daron\louis\Permissions.class
+fr\daron\louis\CustomPlayer.class
+fr\daron\louis\configGame\ConfigItem.class
+fr\daron\louis\Location.class
+fr\daron\louis\EventHandler\ConnectionHandle.class
+fr\daron\louis\Lobby.class
