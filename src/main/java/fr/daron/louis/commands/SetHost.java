@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fr.daron.louis.CustomPlayer;
 import fr.daron.louis.Permissions;
 import fr.daron.louis.Plugin;
-import fr.daron.louis.configGame.configItem.ConfigItem;
+import fr.daron.louis.configGame.configItem.ConfigItemMain;
 
 public class SetHost implements CommandExecutor {
 
@@ -31,11 +31,11 @@ public class SetHost implements CommandExecutor {
       else if (args.length == 1){
          List<CustomPlayer> players = ((Plugin) jvPlugin).getPlayers();
          for (CustomPlayer p : players) {
-            sender.sendMessage(p.getPlayer().getName()+"--------"+ args[0]);
+            // sender.sendMessage(p.getPlayer().getName()+"--------"+ args[0]);
             if (args[0].equals(p.getPlayer().getName())){
-               sender.sendMessage("ca a fonctionné");
+               // sender.sendMessage("ca a fonctionné");
                p.setPerms(Permissions.HOST);
-               p.getPlayer().getInventory().addItem(ConfigItem.getConfigItem());
+               p.getPlayer().getInventory().addItem(ConfigItemMain.getConfigItem());
             }
          }  
          return true;
