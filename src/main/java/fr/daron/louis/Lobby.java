@@ -55,22 +55,33 @@ public class Lobby {
                .createWorld(CreateWorldOptions.worldName(this.name).worldType(WorldType.FLAT).generateStructures(false)
                      .generatorSettings(superflatPreset));
 
-         LoadedMultiverseWorld mvWorld = result.get();
-         mvWorld.setDifficulty(Difficulty.PEACEFUL);
-         mvWorld.setGameMode(GameMode.ADVENTURE);
-         mvWorld.setPvp(false);
-
-         // ConfigurationSection conf = 
-         // EntitySpawnConfig spawnConfig = EntitySpawnConfig.fromSection(null);
-
-         // mvWorld.setEntitySpawnConfig(EntitySpawnConfig.);
-         // mvWorld.setSpawnAnimals(false);
-         if (!result.isSuccess())
+         if (!result.isSuccess()) {
+            // Log l'erreur, récupérer la raison
+            plugin.getLogger().severe("Echec de la création du monde ");
             return false;
+         }
 
-         Bukkit.getScheduler().runTaskLater(plugin, () -> pasteSchematic(new Location(0, 100, 0), "teamspawn"), 3L);
+         LoadedMultiverseWorld mvWorld = result.get();
+         if (mvWorld != null){
+            mvWorld.setDifficulty(Difficulty.PEACEFUL);
+            mvWorld.setGameMode(GameMode.ADVENTURE);
+            mvWorld.setPvp(false);
 
-         return true;
+            // ConfigurationSection conf = 
+            // EntitySpawnConfig spawnConfig = EntitySpawnConfig.fromSection(null);
+
+            // mvWorld.setEntitySpawnConfig(EntitySpawnConfig.);
+            // mvWorld.setSpawnAnimals(false);
+            if (!result.isSuccess())
+               return false;
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> pasteSchematic(new Location(0, 100, 0), "teamspawn"), 3L);
+
+            return true;
+         } else {
+            return false;
+         }
+         
       // }
       // return false;
       
