@@ -24,7 +24,7 @@ public class SetHost implements CommandExecutor {
 
    
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-      if (args.length == 0 || args.length >= 2) {
+      if (args.length == 0 || args.length >= 2 ) {
          sender.sendMessage("Usage : /sethost <playerName>");
          return false;
       }
@@ -32,7 +32,7 @@ public class SetHost implements CommandExecutor {
          List<CustomPlayer> players = ((Plugin) jvPlugin).getPlayers();
          for (CustomPlayer p : players) {
             // sender.sendMessage(p.getPlayer().getName()+"--------"+ args[0]);
-            if (args[0].equals(p.getPlayer().getName())){
+            if (args[0].equals(p.getPlayer().getName()) && p.getPlayer().isOp()){
                // sender.sendMessage("ca a fonctionné");
                p.setPerms(Permissions.HOST);
                p.getPlayer().getInventory().addItem(ConfigItemMain.getConfigItem());
