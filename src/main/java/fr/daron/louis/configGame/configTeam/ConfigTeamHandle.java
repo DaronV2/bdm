@@ -1,5 +1,10 @@
 package fr.daron.louis.configGame.configTeam;
 
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,7 +12,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public class ConfigTeamHandle implements Listener {
 
@@ -19,7 +29,6 @@ public class ConfigTeamHandle implements Listener {
 
    @EventHandler
    public void onInteract(PlayerInteractEvent event) {
-      event.setCancelled(true);
       Action action = event.getAction();
       ItemStack item = event.getItem();
       Player p = event.getPlayer();
@@ -39,24 +48,58 @@ public class ConfigTeamHandle implements Listener {
          return;
       }
 
+      event.setCancelled(true);
       ConfigTeamMain.openTeamMenu(p, jvPlugin);
    }
 
    @EventHandler
-   public void onInventoryClick(InventoryClickEvent event){
-      if(event.getView().getTitle().equals("$0 Choissisez votre équipe")){
-         System.err.println("oue");
-         event.setCancelled(true);
-         if (event.getCurrentItem() == null) {
+   public void onInventoryClick(InventoryClickEvent event) {
+      if (event.getView().getTitle().equals("§0 Choissisez votre équipe")) {
+         if (event.getCurrentItem() == null || !event.getCurrentItem().hasItemMeta()) {
             return;
          }
-         Player player = (Player) event.getWhoClicked();
+         Player p = Bukkit.getPlayer(event.getWhoClicked().getName());
          String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
-         if( displayName.contains("Équipe ")){
-            System.err.println(displayName.charAt(displayName.length()));
+         int teamLimit = 3;
+         if (displayName.contains("Équipe ")) {
+            ItemStack item = event.getCurrentItem();
+            ItemMeta meta = item.getItemMeta();
+            PersistentDataContainer pdc = meta.getPersistentDataContainer();
+            NamespacedKey key = new NamespacedKey(jvPlugin, "hidden_value");
+            //
+            String teamName = pdc.get(key, PersistentDataType.STRING).toString();
+            Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+            Team team = scoreboard.getTeam(teamName);
+            //
+            Set<String> playersTeam = scoreboard.getTeam(teamName).getEntries();
+            boolean inThisTeam = false;
+            for (String entry : playersTeam){
+               if (entry == p.getName()){
+                  inThisTeam = true;
+               }
+            }
+            if(team != null){
+               if(p != null){
+                  if(team.getEntries().size() <= teamLimit){
+                     if (inThisTeam == false){
+                        team.addEntry(p.getName());
+                        p.closeInventory();
+                     } else {
+                        p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+                     }
+                  }else{
+                     p.sendMessage("Cette équipe est complète");;
+                  }
+               } else {
+                  System.err.println("Aucun joueur n'a cliqué");
+               }
+            } else{
+               System.err.println("L'équipe n'existe pas");
+            }
          }
 
       }
+      event.setCancelled(true);
       return;
    }
 }
