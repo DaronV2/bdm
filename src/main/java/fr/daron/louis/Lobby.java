@@ -49,7 +49,6 @@ public class Lobby {
 
    public boolean generate() {
       WorldManager worldManager = this.coreApi.getWorldManager();
-      // if(worldManager.getWorld(name) == null){
          String superflatPreset = "{\"layers\":[{\"block\":\"air\",\"height\":1}],\"biome\":\"the_void\"}";
          Attempt<LoadedMultiverseWorld, CreateFailureReason> result = worldManager
                .createWorld(CreateWorldOptions.worldName(this.name).worldType(WorldType.FLAT).generateStructures(false)
@@ -65,7 +64,9 @@ public class Lobby {
          if (mvWorld != null){
             mvWorld.setDifficulty(Difficulty.PEACEFUL);
             mvWorld.setGameMode(GameMode.ADVENTURE);
+            System.err.println("Gamemode : "+mvWorld.getGameMode());
             mvWorld.setPvp(false);
+            System.err.println("Pvp : "+ mvWorld.getPvp());
 
             // ConfigurationSection conf = 
             // EntitySpawnConfig spawnConfig = EntitySpawnConfig.fromSection(null);
@@ -80,11 +81,7 @@ public class Lobby {
             return true;
          } else {
             return false;
-         }
-         
-      // }
-      // return false;
-      
+         } 
    }
 
    private File extractSchematic(String internalPath, String outputName) {
@@ -99,7 +96,7 @@ public class Lobby {
             try (InputStream is = plugin.getResource(internalPath)) {
 
                if (is == null) {
-                  plugin.getLogger().severe("Schematic introuvable dans le plugin : " + internalPath);
+                  plugin.getLogger().severe("Can't find schematic in plugin : " + internalPath);
                   return null;
                }
 
@@ -119,7 +116,7 @@ public class Lobby {
       File schem = extractSchematic("schematics/" + schematicName + ".schem", schematicName + "_temp.schem");
 
       if (schem == null) {
-         plugin.getLogger().severe("Impossible d'extraire le schematic !");
+         plugin.getLogger().severe("Can't extract schematic !");
          return;
       }
       try {
@@ -138,7 +135,7 @@ public class Lobby {
 
             Operations.complete(operation);
 
-            plugin.getLogger().info("✔ Schematic collé dans : " + name);
+            plugin.getLogger().info("✔ Schematic pastes in : " + name);
          }
       } catch (Exception e) {
          e.printStackTrace();

@@ -16,7 +16,7 @@ public class DisconnectHandle implements Listener {
         for (int i = 0; i < inv.getSize(); i++) {
             ItemStack item = inv.getItem(i);
             if (item != null && item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
-                if (item.getItemMeta().getDisplayName().equals("§9Menu de configuration") || item.getItemMeta().getDisplayName().equals("§0 Choissisez votre équipe")) {
+                if (item.getItemMeta().getDisplayName().equals("§8Configuration") || item.getItemMeta().getDisplayName().equals("§0Choose your team")) {
                     inv.clear(i);
                 }
             }

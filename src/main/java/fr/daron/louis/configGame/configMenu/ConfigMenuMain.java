@@ -30,7 +30,7 @@ public class ConfigMenuMain {
 
       ItemStack option1 = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
       ItemMeta meta1 = option1.getItemMeta();
-      meta1.setDisplayName("§7Ajuster le nombre d'équipes ("+nbTeams+")");
+      meta1.setDisplayName("§7Adjust teams number (" + nbTeams + ")");
       meta1.setMaxStackSize(1);
       option1.setItemMeta(meta1);
 

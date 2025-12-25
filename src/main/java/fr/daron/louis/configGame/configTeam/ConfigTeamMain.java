@@ -29,7 +29,7 @@ public class ConfigTeamMain {
 
    public static void openTeamMenu(Player player, JavaPlugin jvplugin) {
       int nbTeams = ((Plugin) jvplugin).getNbTeams();
-      Inventory inv = Bukkit.createInventory(null, 9, "§0 Choissisez votre équipe");
+      Inventory inv = Bukkit.createInventory(null, 9, "§0Choose your team");
 
       ScoreboardManager manager = Bukkit.getScoreboardManager();
       Scoreboard board = manager.getMainScoreboard();
@@ -41,11 +41,11 @@ public class ConfigTeamMain {
             if (bannerColor != Material.WHITE_BANNER) {
                ItemStack banner = new ItemStack(bannerColor);
                ItemMeta meta = banner.getItemMeta();
-               meta.setDisplayName("Équipe " + (teamNumber + 1));
+               meta.setDisplayName("Team " + (teamNumber + 1));
                List<String> lore = new ArrayList<>();
-               lore.add("Joueurs : ");
+               lore.add("Players : ");
                if (t.getEntries().isEmpty()) {
-                  lore.add("§c- Aucun joueur");
+                  lore.add("§c- ");
                } else {
                   for (String entry : t.getEntries()) {
                      lore.add("§f- " + entry);

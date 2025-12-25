@@ -24,7 +24,7 @@ public class ConfigItemHandle implements Listener {
       ItemStack item = event.getItem();
       Player p = event.getPlayer();
       if (item != null) {
-         if (item.getItemMeta().getDisplayName().equals("§9Menu de configuration")) {
+         if (item.getItemMeta().getDisplayName().equals("§9Setup Menu")) {
             if (event.getItem() == null) {
                return;
             } else if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) {

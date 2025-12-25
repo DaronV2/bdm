@@ -31,9 +31,7 @@ public class SetHost implements CommandExecutor {
       else if (args.length == 1){
          List<CustomPlayer> players = ((Plugin) jvPlugin).getPlayers();
          for (CustomPlayer p : players) {
-            // sender.sendMessage(p.getPlayer().getName()+"--------"+ args[0]);
             if (args[0].equals(p.getPlayer().getName()) && p.getPlayer().isOp()){
-               // sender.sendMessage("ca a fonctionné");
                p.setPerms(Permissions.HOST);
                p.getPlayer().getInventory().addItem(ConfigItemMain.getConfigItem());
             }

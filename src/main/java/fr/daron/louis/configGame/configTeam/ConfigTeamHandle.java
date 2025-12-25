@@ -44,7 +44,7 @@ public class ConfigTeamHandle implements Listener {
       if (!item.getItemMeta().hasDisplayName()) {
          return;
       }
-      if (!item.getItemMeta().getDisplayName().equals("§0 Choissisez votre équipe")) {
+      if (!item.getItemMeta().getDisplayName().equals("§0Choose your team")) {
          return;
       }
 
@@ -54,14 +54,14 @@ public class ConfigTeamHandle implements Listener {
 
    @EventHandler
    public void onInventoryClick(InventoryClickEvent event) {
-      if (event.getView().getTitle().equals("§0 Choissisez votre équipe")) {
+      if (event.getView().getTitle().equals("§0Choose your team")) {
          if (event.getCurrentItem() == null || !event.getCurrentItem().hasItemMeta()) {
             return;
          }
          Player p = Bukkit.getPlayer(event.getWhoClicked().getName());
          String displayName = event.getCurrentItem().getItemMeta().getDisplayName();
          int teamLimit = 3;
-         if (displayName.contains("Équipe ")) {
+         if (displayName.contains("Team ")) {
             ItemStack item = event.getCurrentItem();
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
@@ -88,13 +88,13 @@ public class ConfigTeamHandle implements Listener {
                         p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
                      }
                   }else{
-                     p.sendMessage("Cette équipe est complète");;
+                     p.sendMessage("Team full !");
                   }
                } else {
-                  System.err.println("Aucun joueur n'a cliqué");
+                  System.err.println("No player clicked");
                }
             } else{
-               System.err.println("L'équipe n'existe pas");
+               System.err.println("Team doesn't exists");
             }
          }
 

@@ -62,7 +62,7 @@ public class ConfigMenuHandle implements Listener {
       ItemStack teams = event.getInventory().getItem(13);
       ItemMeta meta = teams.getItemMeta();
       int nbTeams = ((Plugin) jvPlugin).getNbTeams();
-      meta.setDisplayName("§7Ajuster le nombre d'équipes (" + nbTeams + ")");
+      meta.setDisplayName("§7Adjust teams number (" + nbTeams + ")");
       teams.setItemMeta(meta);
       event.getInventory().setItem(13, teams);
    }

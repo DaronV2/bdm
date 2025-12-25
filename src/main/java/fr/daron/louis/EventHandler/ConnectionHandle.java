@@ -47,7 +47,7 @@ public class ConnectionHandle implements Listener {
             System.err.println(p.getGameMode());
             MultiverseCoreApi coreApi = MultiverseCoreApi.get();
             String lobbyName = ((Plugin) jvPlugin).getLobbyName();
-            System.err.println("-------------------------------" + lobbyName);
+            // System.err.println("-------------------------------" + lobbyName);
             coreApi.getDestinationsProvider().parseDestination("e:" + lobbyName + ":5,93,-5:90:0").peek(destination -> {
                 coreApi.getSafetyTeleporter().to(destination).checkSafety(false).teleport(p);
             });
