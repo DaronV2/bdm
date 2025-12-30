@@ -23,6 +23,7 @@ import org.mvplugins.multiverse.core.world.options.CreateWorldOptions;
 import fr.daron.louis.EventHandler.ConnectionHandle;
 import fr.daron.louis.EventHandler.DisconnectHandle;
 import fr.daron.louis.commands.SetHost;
+import fr.daron.louis.commands.StartGame;
 import fr.daron.louis.configGame.configItem.ConfigItemHandle;
 import fr.daron.louis.configGame.configMenu.ConfigMenuHandle;
 import fr.daron.louis.configGame.configTeam.ConfigTeamHandle;
@@ -50,9 +51,10 @@ public class Plugin extends JavaPlugin {
   public void onEnable() {
     this.nbTeams = 1;
     this.players = new ArrayList<CustomPlayer>();
-    this.lobbyName = "LobbyBDM32";
+    this.lobbyName = "LobbyBDM37";
     setEvents();
     getCommand("sethost").setExecutor(new SetHost(this));
+    getCommand("startgame").setExecutor(new StartGame(this));
     Lobby lobby = new Lobby(getLobbyName(), this);
     Boolean generated = lobby.generate();
     if (!generated) {
