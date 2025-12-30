@@ -18,24 +18,22 @@ public class SetHost implements CommandExecutor {
 
    private JavaPlugin jvPlugin;
 
-   public SetHost(JavaPlugin plugin){
+   public SetHost(JavaPlugin plugin) {
       this.jvPlugin = plugin;
    }
 
-   
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-      if (args.length == 0 || args.length >= 2 ) {
+      if (args.length == 0 || args.length >= 2) {
          sender.sendMessage("Usage : /sethost <playerName>");
          return false;
-      }
-      else if (args.length == 1){
+      } else if (args.length == 1) {
          List<CustomPlayer> players = ((Plugin) jvPlugin).getPlayers();
          for (CustomPlayer p : players) {
-            if (args[0].equals(p.getPlayer().getName()) && p.getPlayer().isOp()){
+            if (args[0].equals(p.getPlayer().getName()) && p.getPlayer().isOp()) {
                p.setPerms(Permissions.HOST);
                p.getPlayer().getInventory().addItem(ConfigItemMain.getConfigItem());
             }
-         }  
+         }
          return true;
       }
       return false;
