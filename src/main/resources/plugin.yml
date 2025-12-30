@@ -8,3 +8,7 @@ commands:
     description: Défini l'host de la partie
     usage: /sethost
     aliases: [sth]
+  startgame:
+    description: start The game
+    usage: /setgame
+    aliases: [stg]
