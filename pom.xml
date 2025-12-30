@@ -52,13 +52,6 @@
 			<version>quilt-1.21.1-2.5.33</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.multiverse/multiverse-core -->
-		<dependency>
-            <groupId>org.mvplugins.multiverse.core</groupId>
-            <artifactId>multiverse-core</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
 		<dependency>
 			<groupId>com.sk89q.worldedit</groupId>
 			<artifactId>worldedit-bukkit</artifactId>

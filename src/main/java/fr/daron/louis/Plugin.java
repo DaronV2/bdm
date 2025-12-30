@@ -15,10 +15,6 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
-import org.mvplugins.multiverse.core.MultiverseCoreApi;
-import org.mvplugins.multiverse.core.world.MultiverseWorld;
-import org.mvplugins.multiverse.core.world.WorldManager;
-import org.mvplugins.multiverse.core.world.options.CreateWorldOptions;
 
 import fr.daron.louis.EventHandler.ConnectionHandle;
 import fr.daron.louis.EventHandler.DisconnectHandle;
@@ -51,7 +47,7 @@ public class Plugin extends JavaPlugin {
   public void onEnable() {
     this.nbTeams = 1;
     this.players = new ArrayList<CustomPlayer>();
-    this.lobbyName = "LobbyBDM37";
+    this.lobbyName = "LobbyBDM38";
     setEvents();
     getCommand("sethost").setExecutor(new SetHost(this));
     getCommand("startgame").setExecutor(new StartGame(this));

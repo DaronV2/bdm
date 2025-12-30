@@ -4,21 +4,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mvplugins.multiverse.core.MultiverseCoreApi;
-import org.mvplugins.multiverse.core.utils.result.Attempt;
-import org.mvplugins.multiverse.core.world.LoadedMultiverseWorld;
-import org.mvplugins.multiverse.core.world.WorldManager;
-import org.mvplugins.multiverse.core.world.entity.EntitySpawnConfig;
-import org.mvplugins.multiverse.core.world.options.CreateWorldOptions;
-import org.mvplugins.multiverse.core.world.reasons.CreateFailureReason;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -37,51 +36,36 @@ public class Lobby {
 
    private String name;
 
-   private MultiverseCoreApi coreApi;
-
    private JavaPlugin plugin;
 
    public Lobby(String name, JavaPlugin plugin) {
       this.name = name;
       this.plugin = plugin;
-      this.coreApi = MultiverseCoreApi.get();
    }
 
    public boolean generate() {
-      WorldManager worldManager = this.coreApi.getWorldManager();
-         String superflatPreset = "{\"layers\":[{\"block\":\"air\",\"height\":1}],\"biome\":\"the_void\"}";
-         Attempt<LoadedMultiverseWorld, CreateFailureReason> result = worldManager
-               .createWorld(CreateWorldOptions.worldName(this.name).worldType(WorldType.FLAT).generateStructures(false)
-                     .generatorSettings(superflatPreset));
-
-         if (!result.isSuccess()) {
-            // Log l'erreur, récupérer la raison
-            plugin.getLogger().severe("Echec de la création du monde ");
-            return false;
+      WorldCreator worldCreat = new WorldCreator(name);
+      String preset = "{\"layers\":[{\"block\":\"air\",\"height\":1}],\"biome\":\"the_void\"}";
+      worldCreat.generateStructures(false);
+      worldCreat.generatorSettings(preset);
+      worldCreat.generator(new ChunkGenerator() {
+         @Override
+         public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
+            return createChunkData(world);
          }
-
-         LoadedMultiverseWorld mvWorld = result.get();
-         if (mvWorld != null){
-            mvWorld.setDifficulty(Difficulty.PEACEFUL);
-            mvWorld.setGameMode(GameMode.ADVENTURE);
-            System.err.println("Gamemode : "+mvWorld.getGameMode());
-            mvWorld.setPvp(false);
-            System.err.println("Pvp : "+ mvWorld.getPvp());
-
-            // ConfigurationSection conf = 
-            // EntitySpawnConfig spawnConfig = EntitySpawnConfig.fromSection(null);
-
-            // mvWorld.setEntitySpawnConfig(EntitySpawnConfig.);
-            // mvWorld.setSpawnAnimals(false);
-            if (!result.isSuccess())
-               return false;
-
-            Bukkit.getScheduler().runTaskLater(plugin, () -> pasteSchematic(new Location(0, 100, 0), "teamspawn"), 3L);
-
-            return true;
-         } else {
-            return false;
-         } 
+      });
+      worldCreat.environment(World.Environment.NORMAL);
+      World lobby = worldCreat.createWorld();
+      if (lobby != null) {
+         plugin.getLogger().severe("World created !");
+         lobby.setPVP(false);
+         lobby.setDifficulty(Difficulty.PEACEFUL);
+      } else {
+         plugin.getLogger().severe("Couldn't create lobby world !");
+         return false;
+      }
+      pasteSchematic(new Location(lobby, 5, 93, -5), "teamspawn");
+      return true;
    }
 
    private File extractSchematic(String internalPath, String outputName) {
@@ -113,30 +97,46 @@ public class Lobby {
    }
 
    private void pasteSchematic(Location location, String schematicName) {
+
       File schem = extractSchematic("schematics/" + schematicName + ".schem", schematicName + "_temp.schem");
 
       if (schem == null) {
-         plugin.getLogger().severe("Can't extract schematic !");
+         plugin.getLogger().severe("❌ Impossible d'extraire le schematic !");
          return;
       }
+
       try {
          ClipboardFormat format = ClipboardFormats.findByFile(schem);
-         Clipboard clipboard = format.getReader(new FileInputStream(schem)).read();
+         if (format == null) {
+            plugin.getLogger().severe("❌ Format de schematic inconnu !");
+            return;
+         }
 
-         com.sk89q.worldedit.world.World weWorld = new BukkitWorld(Bukkit.getWorld(name));
+         Clipboard clipboard;
+         try (FileInputStream fis = new FileInputStream(schem)) {
+            clipboard = format.getReader(fis).read();
+         }
+
+         World bukkitWorld = location.getWorld();
+         if (bukkitWorld == null) {
+            plugin.getLogger().severe("❌ Monde null !");
+            return;
+         }
+
+         com.sk89q.worldedit.world.World weWorld = new BukkitWorld(bukkitWorld);
 
          try (EditSession session = WorldEdit.getInstance().newEditSession(weWorld)) {
 
-            ClipboardHolder holder = new ClipboardHolder(clipboard);
-
-            Operation operation = holder.createPaste(session)
-                  .to(BlockVector3.at(location.getX(), location.getY(), location.getZ())).ignoreAirBlocks(false)
+            Operation operation = new ClipboardHolder(clipboard).createPaste(session)
+                  .to(BlockVector3.at(location.getBlockX(), location.getBlockY(), location.getBlockZ()))
+                  .ignoreAirBlocks(true) // ⚠ recommandé
                   .build();
 
             Operations.complete(operation);
-
-            plugin.getLogger().info("✔ Schematic pastes in : " + name);
          }
+
+         plugin.getLogger().info("✔ Schematic collé dans le monde : " + bukkitWorld.getName());
+
       } catch (Exception e) {
          e.printStackTrace();
       }
