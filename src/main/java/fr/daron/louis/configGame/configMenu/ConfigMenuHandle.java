@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.Team;
 
 import fr.daron.louis.Plugin;
 import fr.daron.louis.configGame.configItem.ConfigItemMain;
@@ -53,6 +57,13 @@ public class ConfigMenuHandle implements Listener {
             Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             for (Player p : players) {
                p.getInventory().remove(ConfigItemMain.getTeamSelector());
+            }
+         }
+         ScoreboardManager manager = Bukkit.getScoreboardManager();
+         Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+         for (Team t : board.getTeams()) {
+            for (String entry : t.getEntries()) {
+               t.removeEntry(entry);
             }
          }
       }
