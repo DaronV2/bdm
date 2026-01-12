@@ -19,6 +19,7 @@ import org.bukkit.scoreboard.Team;
 
 import fr.daron.louis.Plugin;
 import fr.daron.louis.configGame.configItem.ConfigItemMain;
+import fr.daron.louis.configGame.configTeam.ConfigTeamMain;
 
 public class ConfigMenuHandle implements Listener {
 
@@ -51,12 +52,12 @@ public class ConfigMenuHandle implements Listener {
          if (((Plugin) jvPlugin).getNbTeams() > 1) {
             Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             for (Player p : players) {
-               p.getInventory().setItem(8, ConfigItemMain.getTeamSelector());
+               p.getInventory().setItem(8, ConfigTeamMain.getTeamSelector());
             }
          } else if (((Plugin) jvPlugin).getNbTeams() <= 1) {
             Collection<? extends Player> players = Bukkit.getOnlinePlayers();
             for (Player p : players) {
-               p.getInventory().remove(ConfigItemMain.getTeamSelector());
+               p.getInventory().remove(ConfigTeamMain.getTeamSelector());
             }
          }
          ScoreboardManager manager = Bukkit.getScoreboardManager();

@@ -17,6 +17,7 @@ import fr.daron.louis.CustomPlayer;
 import fr.daron.louis.Permissions;
 import fr.daron.louis.Plugin;
 import fr.daron.louis.configGame.configItem.ConfigItemMain;
+import fr.daron.louis.configGame.configTeam.ConfigTeamMain;
 
 public class ConnectionHandle implements Listener {
 
@@ -39,7 +40,7 @@ public class ConnectionHandle implements Listener {
         //     }
         // }
         if(((Plugin) jvPlugin).getNbTeams() > 1){
-            p.getInventory().setItem(8, ConfigItemMain.getTeamSelector());
+            p.getInventory().setItem(8, ConfigTeamMain.getTeamSelector());
         }
         CustomPlayer play = new CustomPlayer(p);
         if (!((Plugin) jvPlugin).getPlayers().contains(play)) {

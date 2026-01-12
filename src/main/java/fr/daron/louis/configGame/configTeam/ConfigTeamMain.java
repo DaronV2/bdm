@@ -2,6 +2,7 @@ package fr.daron.louis.configGame.configTeam;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,18 @@ public class ConfigTeamMain {
          }
       }
       player.openInventory(inv);
+
+   }
+
+   public static ItemStack getTeamSelector() {
+      ItemStack item = new ItemStack(Material.BLACK_BANNER);
+      ItemMeta meta = item.getItemMeta();
+
+      meta.setDisplayName("§0Choose your team");
+      meta.setLore(Arrays.asList("§7Players : \r- \r- \r -"));
+
+      item.setItemMeta(meta);
+      return item;
 
    }
 

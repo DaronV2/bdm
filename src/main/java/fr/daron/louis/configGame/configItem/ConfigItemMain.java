@@ -17,17 +17,4 @@ public class ConfigItemMain {
                 item.setItemMeta(meta);
                 return item;
         }
-
-        public static ItemStack getTeamSelector() {
-                ItemStack item = new ItemStack(Material.BLACK_BANNER);
-                ItemMeta meta = item.getItemMeta();
-
-                meta.setDisplayName("§0Choose your team");
-                meta.setLore(Arrays.asList("§7Players : \r- \r- \r -"));
-
-                item.setItemMeta(meta);
-                return item;
-
-        }
-
 }
