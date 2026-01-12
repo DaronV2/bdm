@@ -19,6 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import fr.daron.louis.configGame.configBdm.ConfigBdmMain;
+
 public class ConfigTeamHandle implements Listener {
 
    private JavaPlugin jvPlugin;
@@ -83,6 +85,7 @@ public class ConfigTeamHandle implements Listener {
                   if(team.getEntries().size() <= teamLimit){
                      if (inThisTeam == false){
                         team.addEntry(p.getName());
+                        p.getInventory().addItem(ConfigBdmMain.getBdmItem());
                         p.closeInventory();
                      } else {
                         p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
